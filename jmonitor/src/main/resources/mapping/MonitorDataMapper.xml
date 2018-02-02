@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.asiainfo.dao.MonitorDataDao">
+
+    <resultMap id="monitor_data" type="com.asiainfo.pojo.MonitorData">
+        <result column="ip" property="ip" />
+        <result column="cpu_user" property="cpu_user" />
+        <result column="cpu_sys" property="cpu_sys" />
+        <result column="cpu_free" property="cpu_free" />
+        <result column="memory_total" property="memory_total" />
+        <result column="memory_use" property="memory_use" />
+        <result column="memory_free" property="memory_free" />
+        <result column="memory_buffer" property="memory_buffer" />
+        <result column="swap_total" property="swap_total" />
+        <result column="swap_use" property="swap_use" />
+        <result column="swap_free" property="swap_free" />
+        <result column="swap_cache" property="swap_cache" />
+        <result column="io_write" property="io_write" />
+        <result column="io_read" property="io_read" />
+        <result column="load_01" property="load_01" />
+        <result column="load_05" property="load_05" />
+        <result column="load_15" property="load_15" />
+        <result column="add_time" property="add_time" />
+    </resultMap>
+
+    <select id="getAllRecentData" resultMap="monitor_data">
+        select * from monitor_data t where
+            (select count(1) from monitor_data where ip=t.ip and add_time> t.add_time) &lt;1
+        order by t.load_01 desc
+    </select>
+
+    <select id="getCpu" resultMap="monitor_data">
+        select ip,cpu_user,cpu_sys,cpu_free,add_time from monitor_data t where
+        (select count(1) from monitor_data where ip=t.ip and add_time> t.add_time) &lt;12
+        order by ip,add_time;
+    </select>
+
+
+
+
+
+
+</mapper>

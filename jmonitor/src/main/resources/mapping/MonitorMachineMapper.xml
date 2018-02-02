@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.asiainfo.dao.MonitorMachineDao">
+
+    <resultMap id="monitor_machine" type="map">
+        <result column="ip" property="ip" />
+        <result column="cpu" property="cpu" />
+        <result column="memory" property="memory" />
+        <result column="swap" property="swap" />
+        <result column="mac" property="mac" />
+        <result column="add_time" property="add_time" />
+    </resultMap>
+
+    <select id="getAllRecentData" resultMap="monitor_machine">
+        select * from monitor_machine t where
+            (select count(1) from monitor_machine where ip=t.ip and add_time> t.add_time) &lt;1
+        order by ip desc
+    </select>
+
+
+
+
+</mapper>

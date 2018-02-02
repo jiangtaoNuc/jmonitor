@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.asiainfo.dao.MonitorHostDao">
+
+    <resultMap id="monitor_host" type="map">
+        <result column="ip" property="ip" />
+        <result column="add_time" property="add_time" />
+        <result column="tags" property="tags_id" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <select id="getAll" resultMap="monitor_host">
+        select * from `monitor_ip`
+    </select>
+
+    <select id="selectMonitorHostByKey" parameterType="int" resultType="map">
+        select * from `monitor_ip` where id = #{id}
+    </select>
+
+    <delete id="delMonitorHostByKey" parameterType="int">
+        DELETE FROM `monitor_ip` WHERE ip = #{ip}
+    </delete>
+
+    <update id="updateMonitorHost" parameterType="int">
+      UPDATE `monitor_ip` SET ip=#{ip},`add_time`=#{add_time},
+        `modify_time`=`modify_time`,`tags`=#{tags_id},`status`=#{status}
+        where id=#{id}
+    </update>
+
+    <insert id="insertMonitorHost">
+      insert  into `monitor_ip`(`ip`,`add_time`,`modify_time`,`tags`,`status`)
+	values (#{ip},#{add_time},#{modify_time},#{tags_id},#{status});
+    </insert>
+
+
+</mapper>
